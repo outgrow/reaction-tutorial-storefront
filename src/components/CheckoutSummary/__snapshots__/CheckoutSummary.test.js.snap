@@ -12,10 +12,10 @@ exports[`basic snapshot 1`] = `
         className="CartItems__Items-gEXRwN gdnVAG"
       >
         <div
-          className="CartItem__Item-ghDCXl eLtdJ"
+          className="CartItem__Item-ghDCXl cdvsCW"
         >
           <a
-            href="/product-slug"
+            href="/product/product-slug"
           >
             <picture>
               
@@ -49,7 +49,7 @@ exports[`basic snapshot 1`] = `
                       className="CartItemDetail__Title-iDNyNA jPRxvh"
                     >
                       <a
-                        href="/product-slug"
+                        href="/product/product-slug"
                       >
                         A Great Product
                       </a>
@@ -85,30 +85,44 @@ exports[`basic snapshot 1`] = `
                 </div>
               </div>
             </div>
-            <div
-              className="CartItem__ItemContentPrice-lcfJQP eaPRuH"
-            >
-              <div>
-                
-                <del
-                  className="Price__Del-bTXnTw eohoLr"
-                >
-                  $45.00
-                </del>
-                <div
-                  className="Price__PriceDiv-isQcjX grwfvo"
-                >
-                  $20.00
-                </div>
+          </div>
+          <div
+            className="CartItem__ItemContentPrice-lcfJQP eFcnZK"
+          >
+            <div>
+              
+              <del
+                className="Price__Del-bTXnTw eohoLr"
+              >
+                $45.00
+              </del>
+              <div
+                className="Price__PriceDiv-isQcjX grwfvo"
+              >
+                $20.00
               </div>
+            </div>
+            <div
+              className="CartItem__ItemContentSubtotal-bjxNod jQytjM"
+            >
+              <div
+                className="CartItem__ItemContentSubtotalTitle-eXBpVF fcbytT"
+              >
+                Total (
+                2
+                ):
+              </div>
+              <div
+                className="CartItem__ItemContentSubtotalDisplay-eINGGi bgPNxg"
+              />
             </div>
           </div>
         </div>
         <div
-          className="CartItem__Item-ghDCXl eLtdJ"
+          className="CartItem__Item-ghDCXl cdvsCW"
         >
           <a
-            href="/product-slug"
+            href="/product/product-slug"
           >
             <picture>
               
@@ -142,7 +156,7 @@ exports[`basic snapshot 1`] = `
                       className="CartItemDetail__Title-iDNyNA jPRxvh"
                     >
                       <a
-                        href="/product-slug"
+                        href="/product/product-slug"
                       >
                         Another Great Product
                       </a>
@@ -171,16 +185,16 @@ exports[`basic snapshot 1`] = `
                 </div>
               </div>
             </div>
-            <div
-              className="CartItem__ItemContentPrice-lcfJQP eaPRuH"
-            >
-              <div>
-                
-                <div
-                  className="Price__PriceDiv-isQcjX grwfvo"
-                >
-                  $78.00
-                </div>
+          </div>
+          <div
+            className="CartItem__ItemContentPrice-lcfJQP eFcnZK"
+          >
+            <div>
+              
+              <div
+                className="Price__PriceDiv-isQcjX grwfvo"
+              >
+                $78.00
               </div>
             </div>
           </div>

@@ -1,6 +1,7 @@
 import React, { Fragment, Component } from "react";
 import PropTypes from "prop-types";
 import { inject, observer } from "mobx-react";
+import isEqual from "lodash.isequal";
 import Actions from "@reactioncommerce/components/CheckoutActions/v1";
 import ShippingAddressCheckoutAction from "@reactioncommerce/components/ShippingAddressCheckoutAction/v1";
 import FulfillmentOptionsCheckoutAction from "@reactioncommerce/components/FulfillmentOptionsCheckoutAction/v1";
@@ -8,6 +9,7 @@ import StripePaymentCheckoutAction from "@reactioncommerce/components/StripePaym
 import FinalReviewCheckoutAction from "@reactioncommerce/components/FinalReviewCheckoutAction/v1";
 import withCart from "containers/cart/withCart";
 import withPlaceStripeOrder from "containers/order/withPlaceStripeOrder";
+import withAddressValidation from "containers/address/withAddressValidation";
 import Dialog from "@material-ui/core/Dialog";
 import PageLoading from "components/PageLoading";
 import { Router } from "routes";
@@ -16,11 +18,7 @@ import TRACKING from "lib/tracking/constants";
 import trackCheckout from "lib/tracking/trackCheckout";
 import trackOrder from "lib/tracking/trackOrder";
 import trackCheckoutStep from "lib/tracking/trackCheckoutStep";
-import { decodeOpaqueId } from "lib/utils/decoding";
-import {
-  adaptAddressToFormFields,
-  isShippingAddressSet
-} from "lib/utils/cartUtils";
+import { isShippingAddressSet } from "lib/utils/cartUtils";
 
 const {
   CHECKOUT_STARTED,
@@ -30,6 +28,7 @@ const {
   PAYMENT_INFO_ENTERED
 } = TRACKING;
 
+@withAddressValidation
 @withCart
 @withPlaceStripeOrder
 @inject("authStore")
@@ -37,6 +36,8 @@ const {
 @observer
 export default class CheckoutActions extends Component {
   static propTypes = {
+    addressValidation: PropTypes.func.isRequired,
+    addressValidationResults: PropTypes.object,
     cart: PropTypes.shape({
       account: PropTypes.object,
       checkout: PropTypes.object,
@@ -55,8 +56,15 @@ export default class CheckoutActions extends Component {
   };
 
   state = {
+    actionAlerts: {
+      1: null,
+      2: null,
+      3: null,
+      4: null
+    },
+    hasPaymentError: false,
     isPlacingOrder: false
-  }
+  };
 
   componentDidMount() {
     const { cart } = this.props;
@@ -70,6 +78,17 @@ export default class CheckoutActions extends Component {
     // shipping address has not yet been set.
     if (!hasShippingAddress) {
       this.trackAction(this.buildData({ action: CHECKOUT_STEP_VIEWED, step: 1 }));
+    }
+  }
+
+  componentDidUpdate({ addressValidationResults: prevAddressValidationResults }) {
+    const { addressValidationResults } = this.props;
+    if (
+      addressValidationResults &&
+      prevAddressValidationResults &&
+      !isEqual(addressValidationResults, prevAddressValidationResults)
+    ) {
+      this.handleValidationErrors();
     }
   }
 
@@ -91,7 +110,7 @@ export default class CheckoutActions extends Component {
       shipping_method, // eslint-disable-line camelcase
       step
     };
-  }
+  };
 
   get shippingMethod() {
     const { checkout: { fulfillmentGroups } } = this.props.cart;
@@ -107,15 +126,8 @@ export default class CheckoutActions extends Component {
 
   setShippingAddress = async (address) => {
     const { checkoutMutations: { onSetShippingAddress } } = this.props;
-
-    // Omit firstName, lastName props as they are not in AddressInput type
-    // The address form and GraphQL endpoint need to be made consistent
-    const { firstName, lastName, ...rest } = address;
-    const { data, error } = await onSetShippingAddress({
-      fullName: `${address.firstName} ${address.lastName}`,
-      ...rest
-    });
-
+    delete address.isValid;
+    const { data, error } = await onSetShippingAddress(address);
 
     if (data && !error) {
       // track successfully setting a shipping address
@@ -123,7 +135,25 @@ export default class CheckoutActions extends Component {
 
       // The next step will automatically be expanded, so lets track that
       this.trackAction(this.buildData({ action: CHECKOUT_STEP_VIEWED, step: 2 }));
+
+      this.setState({
+        actionAlerts: {
+          1: {}
+        }
+      });
     }
+  };
+
+  handleValidationErrors() {
+    const { addressValidationResults } = this.props;
+    const { validationErrors } = addressValidationResults || [];
+    const shippingAlert =
+      validationErrors && validationErrors.length ? {
+        alertType: validationErrors[0].type,
+        title: validationErrors[0].summary,
+        message: validationErrors[0].details
+      } : null;
+    this.setState({ actionAlerts: { 1: shippingAlert } });
   }
 
   setShippingMethod = async (shippingMethod) => {
@@ -152,13 +182,20 @@ export default class CheckoutActions extends Component {
         action: CHECKOUT_STEP_VIEWED
       });
     }
-  }
+  };
 
   setPaymentMethod = (stripeToken) => {
     const { cartStore } = this.props;
 
     // Store stripe token in MobX store
     cartStore.setStripeToken(stripeToken);
+
+    this.setState({
+      hasPaymentError: false,
+      actionAlerts: {
+        3: {}
+      }
+    });
 
     // Track successfully setting a payment method
     this.trackAction({
@@ -175,7 +212,7 @@ export default class CheckoutActions extends Component {
       payment_method: this.paymentMethod, // eslint-disable-line camelcase
       action: CHECKOUT_STEP_VIEWED
     });
-  }
+  };
 
   buildOrder = async () => {
     const { cart, cartStore } = this.props;
@@ -211,14 +248,13 @@ export default class CheckoutActions extends Component {
     };
 
     return this.setState({ isPlacingOrder: true }, () => this.placeOrder(order));
-  }
+  };
 
   placeOrder = async (order) => {
     const { authStore, cartStore, placeOrderWithStripeCard } = this.props;
-    const { data, error } = await placeOrderWithStripeCard(order);
 
-    // If success
-    if (data && !error) {
+    try {
+      const { data } = await placeOrderWithStripeCard(order);
       const { placeOrderWithStripeCardPayment: { orders, token } } = data;
 
       this.trackAction({
@@ -234,50 +270,50 @@ export default class CheckoutActions extends Component {
       }
 
       this.trackOrder({ action: ORDER_COMPLETED, orders });
-
       // Send user to order confirmation page
-      const { id } = decodeOpaqueId(orders[0]._id);
-      Router.pushRoute("checkoutComplete", { orderId: id, token });
+      Router.pushRoute("checkoutComplete", { orderId: orders[0].referenceId, token });
+    } catch (error) {
+      this.setState({
+        hasPaymentError: true,
+        isPlacingOrder: false,
+        actionAlerts: {
+          3: {
+            alertType: "error",
+            title: "Payment method failed",
+            message: error.toString().replace("Error: GraphQL error:", "")
+          }
+        }
+      });
     }
-
-    // TODO: if an error occurred, notify user
-  }
-
-  handleClose = () => {
-    // TODO: if an error occurs, then close dialog
-  }
+  };
 
   renderPlacingOrderOverlay = () => {
     const { isPlacingOrder } = this.state;
 
     return (
-      <Dialog
-        fullScreen
-        open={isPlacingOrder}
-        onClose={this.handleClose}
-      >
-        <PageLoading delay={0} message="Placing your order..."/>
+      <Dialog fullScreen disableBackdropClick={true} disableEscapeKeyDown={true} open={isPlacingOrder}>
+        <PageLoading delay={0} message="Placing your order..." />
       </Dialog>
     );
-  }
+  };
 
   render() {
     if (!this.props.cart) {
       return null;
     }
 
-    const { cartStore: { stripeToken } } = this.props;
+    const { addressValidation, addressValidationResults, cartStore: { stripeToken } } = this.props;
     const { checkout: { fulfillmentGroups, summary }, items } = this.props.cart;
+    const { actionAlerts, hasPaymentError } = this.state;
     const shippingAddressSet = isShippingAddressSet(fulfillmentGroups);
     const fulfillmentGroup = fulfillmentGroups[0];
 
     let shippingAddress = { data: { shippingAddress: null } };
-    // Adapt shipping address to match fields in the AddressForm component.
-    // fullName is split into firstName and lastName
+
     if (shippingAddressSet) {
       shippingAddress = {
         data: {
-          shippingAddress: adaptAddressToFormFields(fulfillmentGroup.data.shippingAddress)
+          shippingAddress: fulfillmentGroup.data.shippingAddress
         }
       };
     }
@@ -314,7 +350,10 @@ export default class CheckoutActions extends Component {
         component: ShippingAddressCheckoutAction,
         onSubmit: this.setShippingAddress,
         props: {
-          fulfillmentGroup: shippingAddress
+          addressValidationResults,
+          alert: actionAlerts["1"],
+          fulfillmentGroup: shippingAddress,
+          onAddressValidation: addressValidation
         }
       },
       {
@@ -326,6 +365,7 @@ export default class CheckoutActions extends Component {
         component: FulfillmentOptionsCheckoutAction,
         onSubmit: this.setShippingMethod,
         props: {
+          alert: actionAlerts["2"],
           fulfillmentGroup
         }
       },
@@ -334,10 +374,11 @@ export default class CheckoutActions extends Component {
         activeLabel: "Enter payment information",
         completeLabel: "Payment information",
         incompleteLabel: "Payment information",
-        status: stripeToken ? "complete" : "incomplete",
+        status: stripeToken && !hasPaymentError ? "complete" : "incomplete",
         component: StripePaymentCheckoutAction,
         onSubmit: this.setPaymentMethod,
         props: {
+          alert: actionAlerts["3"],
           payment: paymentData
         }
       },
@@ -350,10 +391,13 @@ export default class CheckoutActions extends Component {
         component: FinalReviewCheckoutAction,
         onSubmit: this.buildOrder,
         props: {
-          checkoutSummary
+          alert: actionAlerts["4"],
+          checkoutSummary,
+          productURLPath: "/product/"
         }
       }
     ];
+
     return (
       <Fragment>
         {this.renderPlacingOrderOverlay()}

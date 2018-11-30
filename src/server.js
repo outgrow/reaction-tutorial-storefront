@@ -8,7 +8,6 @@ const { useStaticRendering } = require("mobx-react");
 const logger = require("lib/logger");
 const passport = require("passport");
 const OAuth2Strategy = require("passport-oauth2");
-const refresh = require("passport-oauth2-refresh");
 const { decodeOpaqueId } = require("lib/utils/decoding");
 const { appPath, dev } = require("./config");
 const router = require("./routes");
@@ -33,10 +32,8 @@ passport.use("oauth2", new OAuth2Strategy({
   state: true,
   scope: ["offline"]
 }, (accessToken, refreshToken, profile, cb) => {
-  cb(null, { accessToken, profile });
+  cb(null, { accessToken });
 }));
-
-passport.use("refresh", refresh);
 
 // The value passed to `done` here is stored on the session.
 // We save the full user object in the session.
@@ -94,6 +91,9 @@ app
     server.get("/logout/:userId", (req, res) => {
       const { id } = decodeOpaqueId(req.params.userId);
       request(`${process.env.OAUTH2_IDP_HOST_URL}logout?userId=${id}`, (error) => {
+        if (error) {
+          logger.error(`Error from OAUTH2_IDP_HOST_URL logout endpoint: ${error}. Check the HOST server settings`);
+        }
         if (!error) {
           req.logout();
           res.redirect(req.get("Referer") || "/");
