@@ -10,12 +10,8 @@ const styles = (theme) => ({
   },
   main: {
     flex: "1 1 auto",
-    maxWidth: theme.layout.mainContentMaxWidth,
     marginLeft: "auto",
     marginRight: "auto"
-  },
-  article: {
-    padding: theme.spacing.unit * 3
   }
 });
 
