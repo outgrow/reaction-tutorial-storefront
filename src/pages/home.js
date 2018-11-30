@@ -30,13 +30,24 @@ const styles = (theme) => ({
     textDecoration: "none"
   },
   categories: {
-    display: "flex"
+    display: "flex",
+    justifyContent: "center"
   },
   categoryRow: {
-
+    display: "flex",
+    justifyContent: "space-between",
+    width: "70%"
   },
   categoryCard: {
-
+    fontFamily: theme.typography.fontFamily,
+    textAlign: "center"
+  },
+  categoryCardTitle: {
+    textAlign: "center"
+  },
+  categoryCardImage: {
+    display: "block",
+    height: "200px"
   }
 });
 
@@ -57,19 +68,24 @@ class Home extends Component {
           </div>
         </div>
         <div className={classes.categories}>
-          <div className={classes.categoryCard}>
-            <h2>Trekking</h2>
-            <a className={classes.button} href="#">Shop now</a>
-          </div>
+          <div className={classes.categoryRow}>
+            <div className={classes.categoryCard}>
+              <h2 className={classes.categoryCardTitle}>Trekking</h2>
+              <img className={classes.categoryCardImage} src="/static/images/trekking.jpg" />
+              <a className={classes.button} href="#">Shop now</a>
+            </div>
 
-          <div className={classes.categoryCard}>
-            <h2>Everyday</h2>
-            <a className={classes.button} href="#">Shop now</a>
-          </div>
+            <div className={classes.categoryCard}>
+              <h2 className={classes.categoryCardTitle}>Everyday</h2>
+              <img className={classes.categoryCardImage} src="/static/images/everyday.jpg" />
+              <a className={classes.button} href="#">Shop now</a>
+            </div>
 
-          <div className={classes.categoryCard}>
-            <h2>Travel</h2>
-            <a className={classes.button} href="#">Shop now</a>
+            <div className={classes.categoryCard}>
+              <h2 className={classes.categoryCardTitle}>Travel</h2>
+              <img className={classes.categoryCardImage} src="/static/images/travel.jpg" />
+              <a className={classes.button} href="#">Shop now</a>
+            </div>
           </div>
         </div>
       </div>
