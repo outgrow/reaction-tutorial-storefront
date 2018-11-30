@@ -32,39 +32,36 @@ const styles = (theme) => ({
   },
   link: {
     color: theme.palette.secondary.dark,
-    fontFamily: theme.typography.fontFamily,
     textDecoration: "none",
     "&:hover": {
       color: theme.palette.primary.dark,
       textDecoration: "underline"
     }
-  },
-  contactColumn: {
-    color: theme.palette.secondary.dark,
-    fontFamily: theme.typography.fontFamily
   }
 });
 
 const Footer = ({ ...props }) => (
   <footer className={props.classes.footer}>
     <div className={props.classes.row}>
-      <ul className={props.classes.linkList}>
-        <li className={props.classes.linkListItem}>
-          <a className={props.classes.link} href="#">About us</a>
-        </li>
-        <li className={props.classes.linkListItem}>
-          <a className={props.classes.link} href="#">Terms of Use</a>
-        </li>
-        <li className={props.classes.linkListItem}>
-          <a className={props.classes.link} href="#">Legal Terms</a>
-        </li>
-        <li className={props.classes.linkListItem}>
-          <a className={props.classes.link} href="#">Shipping</a>
-        </li>
-        <li className={props.classes.linkListItem}>
-          <a className={props.classes.link} href="#">Returns</a>
-        </li>
-      </ul>
+      <Typography variant="body1">
+        <ul className={props.classes.linkList}>
+          <li className={props.classes.linkListItem}>
+            <a className={props.classes.link} href="#">About us</a>
+          </li>
+          <li className={props.classes.linkListItem}>
+            <a className={props.classes.link} href="#">Terms of Use</a>
+          </li>
+          <li className={props.classes.linkListItem}>
+            <a className={props.classes.link} href="#">Legal Terms</a>
+          </li>
+          <li className={props.classes.linkListItem}>
+            <a className={props.classes.link} href="#">Shipping</a>
+          </li>
+          <li className={props.classes.linkListItem}>
+            <a className={props.classes.link} href="#">Returns</a>
+          </li>
+        </ul>
+      </Typography>
     </div>
     <div className={props.classes.centerRow}>
       <Typography variant="caption">
@@ -72,9 +69,13 @@ const Footer = ({ ...props }) => (
       </Typography>
     </div>
     <div className={classNames([props.classes.row, props.classes.contactColumn])}>
-      <p>You can reach our support at (123) 456-7890, Monday to Saturday, 8AM EST to 9PM EST.</p>
-      <p>Send any question or suggestion to contact@thebackpackshop.com.</p>
-      <p>We are based out of 123 Park Avenue, New York City, NY.</p>
+      <Typography variant="body1">
+        <p>You can reach our support at <a className={props.classes.link} href="tel:+11234567890">(123) 456-7890</a>,
+          Monday to Saturday, 8AM EST to 9PM EST.</p>
+        <p>Send any question or suggestion to <a className={props.classes.link}
+          href="mailto:contact@thebackpackshop.com">contact@thebackpackshop.com</a>.</p>
+        <p>We are based out of 123 Park Avenue, New York City, NY.</p>
+      </Typography>
     </div>
   </footer>
 );

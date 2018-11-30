@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { observer, inject } from "mobx-react";
 import { withStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
 
 const styles = (theme) => ({
   hero: {
@@ -8,19 +9,15 @@ const styles = (theme) => ({
     backgroundImage: "url(static/images/home-hero.jpg)",
     backgroundPosition: "center",
     backgroundSize: "cover",
-    color: theme.palette.reaction.white,
     display: "flex",
-    fontFamily: theme.typography.fontFamily,
     height: "26rem",
     justifyContent: "flex-end",
     minWidth: "100vw",
     paddingRight: "10rem"
   },
   title: {
-    fontSize: 28
-  },
-  subTitle: {
-    fontSize: 20
+    color: theme.palette.reaction.white,
+    marginBottom: ".5rem"
   },
   button: {
     backgroundColor: theme.palette.reaction.white,
@@ -31,7 +28,8 @@ const styles = (theme) => ({
   },
   categories: {
     display: "flex",
-    justifyContent: "center"
+    justifyContent: "center",
+    marginTop: "3rem"
   },
   categoryRow: {
     display: "flex",
@@ -39,15 +37,12 @@ const styles = (theme) => ({
     width: "70%"
   },
   categoryCard: {
-    fontFamily: theme.typography.fontFamily,
-    textAlign: "center"
-  },
-  categoryCardTitle: {
     textAlign: "center"
   },
   categoryCardImage: {
     display: "block",
-    height: "200px"
+    height: "200px",
+    margin: "1rem 0"
   }
 });
 
@@ -62,29 +57,29 @@ class Home extends Component {
       <div>
         <div className={classes.hero}>
           <div>
-            <h2 className={classes.title}>Adventure awaits.</h2>
-            <h3 className={classes.subTitle}>Discover our brand new collection of backpacks.</h3>
-            <a className={classes.button} href="#">Shop now</a>
+            <Typography className={classes.title} variant="title">Adventure awaits.</Typography>
+            <Typography className={classes.title} variant="subheading">Discover our brand new collection of backpacks.</Typography>
+            <Typography variant="button"><a className={classes.button} href="#">Shop now</a></Typography>
           </div>
         </div>
         <div className={classes.categories}>
           <div className={classes.categoryRow}>
             <div className={classes.categoryCard}>
-              <h2 className={classes.categoryCardTitle}>Trekking</h2>
+              <Typography variant="title">Trekking</Typography>
               <img className={classes.categoryCardImage} src="/static/images/trekking.jpg" />
-              <a className={classes.button} href="#">Shop now</a>
+              <Typography variant="button"><a className={classes.button} href="#">Shop now</a></Typography>
             </div>
 
             <div className={classes.categoryCard}>
-              <h2 className={classes.categoryCardTitle}>Everyday</h2>
+              <Typography variant="title">Everyday</Typography>
               <img className={classes.categoryCardImage} src="/static/images/everyday.jpg" />
-              <a className={classes.button} href="#">Shop now</a>
+              <Typography variant="button"><a className={classes.button} href="#">Shop now</a></Typography>
             </div>
 
             <div className={classes.categoryCard}>
-              <h2 className={classes.categoryCardTitle}>Travel</h2>
+              <Typography variant="title">Travel</Typography>
               <img className={classes.categoryCardImage} src="/static/images/travel.jpg" />
-              <a className={classes.button} href="#">Shop now</a>
+              <Typography variant="button"><a className={classes.button} href="#">Shop now</a></Typography>
             </div>
           </div>
         </div>
