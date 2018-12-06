@@ -58,7 +58,12 @@ class Home extends Component {
         <div className={classes.hero}>
           <div>
             <Typography className={classes.title} variant="title">Adventure awaits.</Typography>
-            <Typography className={classes.title} variant="subheading">Discover our brand new collection of backpacks.</Typography>
+            <Typography
+              className={classes.title}
+              variant="subheading"
+            >
+              {"Discover our brand new collection of backpacks."}
+            </Typography>
             <Typography variant="button"><a className={classes.button} href="#">Shop now</a></Typography>
           </div>
         </div>
@@ -66,19 +71,19 @@ class Home extends Component {
           <div className={classes.categoryRow}>
             <div className={classes.categoryCard}>
               <Typography variant="title">Trekking</Typography>
-              <img className={classes.categoryCardImage} src="/static/images/trekking.jpg" />
+              <img alt="Trekking Backpacks" className={classes.categoryCardImage} src="/static/images/trekking.jpg" />
               <Typography variant="button"><a className={classes.button} href="#">Shop now</a></Typography>
             </div>
 
             <div className={classes.categoryCard}>
               <Typography variant="title">Everyday</Typography>
-              <img className={classes.categoryCardImage} src="/static/images/everyday.jpg" />
+              <img alt="Everyday Backpacks" className={classes.categoryCardImage} src="/static/images/everyday.jpg" />
               <Typography variant="button"><a className={classes.button} href="#">Shop now</a></Typography>
             </div>
 
             <div className={classes.categoryCard}>
               <Typography variant="title">Travel</Typography>
-              <img className={classes.categoryCardImage} src="/static/images/travel.jpg" />
+              <img alt="Travel Backpacks" className={classes.categoryCardImage} src="/static/images/travel.jpg" />
               <Typography variant="button"><a className={classes.button} href="#">Shop now</a></Typography>
             </div>
           </div>
