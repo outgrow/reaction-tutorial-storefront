@@ -33,6 +33,7 @@ routes
   .add("shopProduct", "/shop/:shopSlug/product/:slugOrId", "product")
   .add("product", "/product/:slugOrId/:variantId?", "product")
   .add("shop", "/shop/:shopId/:tag", "productGrid")
-  .add("tag", "/tag/:slug", "tag");
+  .add("tag", "/tag/:slug", "tag")
+  .add("contact", "/contact", "contact");
 
 module.exports = routes;
