@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import Link from "/components/Link";
 
 const date = new Date();
 
@@ -59,6 +60,9 @@ const Footer = ({ ...props }) => (
           </li>
           <li className={props.classes.linkListItem}>
             <a className={props.classes.link} href="#">Returns</a>
+          </li>
+          <li className={props.classes.linkListItem}>
+            <Link className={props.classes.link} route="/contact">Contact Us</Link>
           </li>
         </ul>
       </Typography>

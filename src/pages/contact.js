@@ -24,6 +24,10 @@ const styles = (themes) => ({
 @inject("routingStore", "uiStore")
 @observer
 class Contact extends Component {
+  handleSubmit() {
+
+  }
+
   render() {
     const { classes } = this.props;
 
