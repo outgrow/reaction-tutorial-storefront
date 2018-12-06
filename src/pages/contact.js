@@ -2,12 +2,14 @@ import React, { Component } from "react";
 import { observer, inject } from "mobx-react";
 import { Form } from "reacto-form";
 import classNames from "classnames";
+import Button from "@reactioncommerce/components/Button/v1";
 import ErrorsBlock from "@reactioncommerce/components/ErrorsBlock/v1";
 import Field from "@reactioncommerce/components/Field/v1";
 import TextInput from "@reactioncommerce/components/TextInput/v1";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-const styles = (themes) => ({
+
+const styles = (theme) => ({
   twoColumns: {
     display: "flex",
     justifyContent: "space-between"
@@ -67,6 +69,7 @@ class Contact extends Component {
             <TextInput id="message" name="message" isRequired shouldAllowLineBreaks />
             <ErrorsBlock names={["message"]} />
           </Field>
+          <Button onClick={this.handleSubmit}>Submit</Button>
         </Form>
       </div>
     );

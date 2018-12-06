@@ -13,7 +13,11 @@ const styles = (theme) => ({
     height: "26rem",
     justifyContent: "flex-end",
     minWidth: "100vw",
-    paddingRight: "10rem"
+    paddingRight: "10rem",
+    position: "absolute",
+    top: "4rem",
+    left: 0,
+    zIndex: -1
   },
   title: {
     color: theme.palette.reaction.white,
@@ -29,7 +33,7 @@ const styles = (theme) => ({
   categories: {
     display: "flex",
     justifyContent: "center",
-    marginTop: "3rem"
+    marginTop: "30rem" // Avoid hero and categories overlap due to position: absolute
   },
   categoryRow: {
     display: "flex",
