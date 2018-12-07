@@ -1,0 +1,6 @@
+mutation submitContactForm($input: ContactFormInput!) {
+  submitContactForm(input: $input) {
+    hasError
+    clientMutationId
+  }
+}

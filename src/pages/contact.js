@@ -8,6 +8,7 @@ import Field from "@reactioncommerce/components/Field/v1";
 import TextInput from "@reactioncommerce/components/TextInput/v1";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import withSubmitContactForm from "/custom/contact/withSubmitContactForm";
 
 const styles = (theme) => ({
   twoColumns: {
@@ -23,12 +24,19 @@ const styles = (theme) => ({
 });
 
 @withStyles(styles, { name: "SkContact" })
+@withSubmitContactForm
 @inject("routingStore", "uiStore")
 @observer
 class Contact extends Component {
-  handleSubmit() {
+  constructor() {
+    super();
 
+    this.form = {};
   }
+
+  handleSubmit = () => {
+    this.props.onSubmitContactForm(this.form.state.value);
+  };
 
   render() {
     const { classes } = this.props;
@@ -37,7 +45,7 @@ class Contact extends Component {
       <div>
         <Typography variant="title">Contact us</Typography>
 
-        <Form onSubmit={this.handleSubmit}>
+        <Form ref={(node) => { this.form = node; }} onSubmit={this.handleSubmit}>
           <div className={classes.twoColumns}>
             <Field
               className={classNames([classes.column, classes.field])}
