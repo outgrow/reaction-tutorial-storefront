@@ -32,6 +32,10 @@ class Contact extends Component {
     super();
 
     this.form = {};
+
+    this.state = {
+      messageSent: false
+    };
   }
 
   handleSubmit = async () => {
@@ -39,6 +43,8 @@ class Contact extends Component {
 
     if (data.submitContactForm.hasError) {
       console.error("Error was returned");
+    } else {
+      this.setState({ messageSent: true });
     }
   };
 
@@ -112,7 +118,12 @@ class Contact extends Component {
             <TextInput id="message" name="message" isRequired shouldAllowLineBreaks />
             <ErrorsBlock names={["message"]} />
           </Field>
-          <Button onClick={() => { this.form.submit(); }}>Submit</Button>
+          <Button
+            onClick={() => { this.form.submit(); }}
+            isDisabled={this.state.messageSent}
+          >
+            {this.state.messageSent ? "Thanks! We'll get back to you as soon as possible." : "Submit"}
+          </Button>
         </Form>
       </div>
     );
