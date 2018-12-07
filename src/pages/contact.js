@@ -40,8 +40,33 @@ class Contact extends Component {
     if (data.submitContactForm.hasError) {
       console.error("Error was returned");
     }
+  };
 
-    console.log(this.form);
+  handleValidate = async (fields) => {
+    const errors = [];
+
+    if (!fields.email || !fields.email.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
+      errors.push({
+        message: "E-mail needs to be a valid e-mail address.",
+        name: "email"
+      });
+    }
+
+    if (!fields.fullName || fields.fullName.length <= 0) {
+      errors.push({
+        message: "Full name is mandatory.",
+        name: "fullName"
+      });
+    }
+
+    if (!fields.message || fields.message.length <= 0) {
+      errors.push({
+        message: "Message is mandatory.",
+        name: "message"
+      });
+    }
+
+    return errors;
   };
 
   render() {
@@ -51,7 +76,11 @@ class Contact extends Component {
       <div>
         <Typography variant="title">Contact us</Typography>
 
-        <Form ref={(node) => { this.form = node; }} onSubmit={this.handleSubmit}>
+        <Form
+          ref={(node) => { this.form = node; }}
+          onSubmit={this.handleSubmit}
+          validator={this.handleValidate}
+        >
           <div className={classes.twoColumns}>
             <Field
               className={classNames([classes.column, classes.field])}
