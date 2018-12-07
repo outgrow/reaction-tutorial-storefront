@@ -34,8 +34,14 @@ class Contact extends Component {
     this.form = {};
   }
 
-  handleSubmit = () => {
-    this.props.onSubmitContactForm(this.form.state.value);
+  handleSubmit = async () => {
+    const { data } = await this.props.onSubmitContactForm(this.form.state.value);
+
+    if (data.submitContactForm.hasError) {
+      console.error("Error was returned");
+    }
+
+    console.log(this.form);
   };
 
   render() {
@@ -77,7 +83,7 @@ class Contact extends Component {
             <TextInput id="message" name="message" isRequired shouldAllowLineBreaks />
             <ErrorsBlock names={["message"]} />
           </Field>
-          <Button onClick={this.handleSubmit}>Submit</Button>
+          <Button onClick={() => { this.form.submit(); }}>Submit</Button>
         </Form>
       </div>
     );
