@@ -35,7 +35,7 @@ class Contact extends Component {
 
     this.state = {
       messageSent: false,
-      serverErrorCaught: false
+      serverErrors: []
     };
   }
 
@@ -44,11 +44,16 @@ class Contact extends Component {
       .then(({ data }) => {
         this.setState({
           messageSent: true,
-          serverErrorCaught: false
+          serverErrors: []
         });
       })
       .catch((e) => {
-        this.setState({ serverErrorCaught: true });
+        this.setState({
+          serverErrors: [{
+            name: "server",
+            message: "Sorry, an error happened behind the scenes. Our team is looking into it. Please retry later."
+          }]
+        });
       });
   };
 
@@ -81,6 +86,8 @@ class Contact extends Component {
 
   render() {
     const { classes } = this.props;
+
+    console.log("this.form", this.form);
 
     return (
       <div>
@@ -128,9 +135,7 @@ class Contact extends Component {
           >
             {this.state.messageSent ? "Thanks! We'll get back to you as soon as possible." : "Submit"}
           </Button>
-          {this.state.serverErrorCaught && <span>
-            {"Sorry, an error happened behind the scenes. Our team is looking into it. Please retry later."}
-          </span>}
+          <ErrorsBlock names={["server"]} errors={this.state.serverErrors} />
         </Form>
       </div>
     );
