@@ -34,18 +34,22 @@ class Contact extends Component {
     this.form = {};
 
     this.state = {
-      messageSent: false
+      messageSent: false,
+      serverErrorCaught: false
     };
   }
 
   handleSubmit = async () => {
-    const { data } = await this.props.onSubmitContactForm(this.form.state.value);
-
-    if (data.submitContactForm.hasError) {
-      console.error("Error was returned");
-    } else {
-      this.setState({ messageSent: true });
-    }
+    this.props.onSubmitContactForm(this.form.state.value)
+      .then(({ data }) => {
+        this.setState({
+          messageSent: true,
+          serverErrorCaught: false
+        });
+      })
+      .catch((e) => {
+        this.setState({ serverErrorCaught: true });
+      });
   };
 
   handleValidate = async (fields) => {
@@ -124,6 +128,9 @@ class Contact extends Component {
           >
             {this.state.messageSent ? "Thanks! We'll get back to you as soon as possible." : "Submit"}
           </Button>
+          {this.state.serverErrorCaught && <span>
+            {"Sorry, an error happened behind the scenes. Our team is looking into it. Please retry later."}
+          </span>}
         </Form>
       </div>
     );
