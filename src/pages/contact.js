@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { observer, inject } from "mobx-react";
 import Typography from "@material-ui/core/Typography";
-import ContactForm from "/custom/contact/ContactForm";
+import ContactForm from "/custom/contact/ContactFormContainer";
 
 @inject("routingStore", "uiStore")
 @observer
