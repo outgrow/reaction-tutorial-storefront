@@ -5,6 +5,7 @@ import { StripeProvider } from "react-stripe-elements";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import JssProvider from "react-jss/lib/JssProvider";
+import { Provider as MobxProvider } from "mobx-react";
 import { ComponentsProvider } from "@reactioncommerce/components-context";
 import getConfig from "next/config";
 import track from "lib/tracking/track";
@@ -12,13 +13,13 @@ import dispatch from "lib/tracking/dispatch";
 import withApolloClient from "lib/apollo/withApolloClient";
 import withShop from "containers/shop/withShop";
 import withViewer from "containers/account/withViewer";
-import withTags from "containers/tags/withTags";
 import Layout from "components/Layout";
 import withMobX from "lib/stores/withMobX";
 import rootMobXStores from "lib/stores";
-import components from "../lib/theme/components";
 import getPageContext from "../lib/theme/getPageContext";
-import componentTheme from "../lib/theme/componentTheme";
+import components from "../custom/componentsContext";
+import componentTheme from "../custom/componentTheme";
+import getAllTags from "../lib/data/getAllTags";
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -26,7 +27,6 @@ const { publicRuntimeConfig } = getConfig();
 @withMobX
 @withShop
 @withViewer
-@withTags
 @track({}, { dispatch })
 export default class App extends NextApp {
   static async getInitialProps({ Component, ctx }) {
@@ -36,7 +36,16 @@ export default class App extends NextApp {
       pageProps = await Component.getInitialProps(ctx);
     }
 
-    return { pageProps };
+    // TODO
+    // We retrieve tags here because
+    // 1) they were used for navigtion and needed to be here and
+    // 2) with multiple pages of tags, this was the only place where
+    // we could loop multiple times to get them all
+    // We no longer use tags for navigation, so if we can find a resolution
+    // to #2, we can move this to only where tags are needed, or inside their own `withTags` container
+    const tags = await getAllTags(ctx.apolloClient);
+
+    return { pageProps, tags };
   }
 
   constructor(props) {
@@ -50,7 +59,6 @@ export default class App extends NextApp {
   componentDidMount() {
     // Fetch and update auth token in auth store
     rootMobXStores.cartStore.setAnonymousCartCredentialsFromLocalStorage();
-    rootMobXStores.keycloakAuthStore.setTokenFromLocalStorage();
 
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector("#jss-server-side");
@@ -66,32 +74,34 @@ export default class App extends NextApp {
   }
 
   render() {
-    const { Component, pageProps, shop, viewer, ...rest } = this.props;
+    const { Component, pageProps, shop, shop: { defaultNavigationTree: navItems }, tags, viewer, ...rest } = this.props;
     const { route } = this.props.router;
     const { stripe } = this.state;
 
     return (
       <Container>
         <ComponentsProvider value={components}>
-          <JssProvider
-            registry={this.pageContext.sheetsRegistry}
-            generateClassName={this.pageContext.generateClassName}
-          >
-            <RuiThemeProvider theme={componentTheme}>
-              <MuiThemeProvider theme={this.pageContext.theme} sheetsManager={this.pageContext.sheetsManager}>
-                <CssBaseline />
-                {route === "/checkout" || route === "/login" ? (
-                  <StripeProvider stripe={stripe}>
-                    <Component pageContext={this.pageContext} shop={shop} {...rest} {...pageProps} />
-                  </StripeProvider>
-                ) : (
-                  <Layout shop={shop} viewer={viewer}>
-                    <Component pageContext={this.pageContext} shop={shop} {...rest} {...pageProps} />
-                  </Layout>
-                )}
-              </MuiThemeProvider>
-            </RuiThemeProvider>
-          </JssProvider>
+          <MobxProvider suppressChangedStoreWarning navItems={navItems} tags={tags}>
+            <JssProvider
+              registry={this.pageContext.sheetsRegistry}
+              generateClassName={this.pageContext.generateClassName}
+            >
+              <RuiThemeProvider theme={componentTheme}>
+                <MuiThemeProvider theme={this.pageContext.theme} sheetsManager={this.pageContext.sheetsManager}>
+                  <CssBaseline />
+                  {route === "/checkout" || route === "/login" ? (
+                    <StripeProvider stripe={stripe}>
+                      <Component pageContext={this.pageContext} shop={shop} {...rest} {...pageProps} />
+                    </StripeProvider>
+                  ) : (
+                    <Layout shop={shop} viewer={viewer}>
+                      <Component pageContext={this.pageContext} shop={shop} {...rest} {...pageProps} />
+                    </Layout>
+                  )}
+                </MuiThemeProvider>
+              </RuiThemeProvider>
+            </JssProvider>
+          </MobxProvider>
         </ComponentsProvider>
       </Container>
     );

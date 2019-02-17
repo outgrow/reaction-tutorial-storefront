@@ -13,7 +13,6 @@ import Typography from "@material-ui/core/Typography";
 import CloseIcon from "mdi-material-ui/Close";
 import Link from "components/Link";
 import withShop from "containers/shop/withShop";
-import withNavigationTags from "containers/tags/withNavigationTags";
 import NavigationItemMobile from "./NavigationItemMobile";
 import NavigationSubMenuMobile from "./NavigationSubMenuMobile";
 
@@ -51,8 +50,8 @@ const styles = (theme) => ({
 });
 
 @withStyles(styles, { name: "SkNavigationMobile" })
-@withNavigationTags
 @withShop
+@inject("navItems")
 @inject("uiStore")
 @observer
 class NavigationMobile extends Component {
@@ -90,7 +89,7 @@ class NavigationMobile extends Component {
     <NavigationItemMobile
       key={index}
       isTopLevel
-      navItem={navItem.node}
+      navItem={navItem}
       onClick={this.handleNavItemClick}
     />
   );
@@ -103,36 +102,41 @@ class NavigationMobile extends Component {
   render() {
     const { classes, navItems, uiStore, shop } = this.props;
 
-    return (
-      <Drawer open={uiStore.isMenuDrawerOpen} onClose={this.handleClose}>
-        <div className={classes.header}>
-          <Toolbar disableGutters>
-            <div className={classes.toolbarTitle}>
-              <Typography className={classes.title} color="inherit" variant="title">
-                <Link route="/" onClick={this.handleClose}>
-                  <ShopLogo shopName={shop && shop.name} />
-                </Link>
-              </Typography>
-            </div>
-            <IconButton onClick={this.handleClose}>
-              <CloseIcon />
-            </IconButton>
-          </Toolbar>
-          <Divider />
-        </div>
-        <nav className={classes.menu}>
-          <MenuList disablePadding>{navItems.edges && navItems.edges.map(this.renderNavItem)}</MenuList>
-        </nav>
-        <Slide direction="left" in={!!this.state.navItem}>
-          <nav className={classes.subNav}>
-            <NavigationSubMenuMobile
-              navItem={this.state.navItem}
-              onBackButtonClick={this.handleCloseSubMenu}
-            />
+    if (navItems && navItems.items) {
+      return (
+        <Drawer open={uiStore.isMenuDrawerOpen} onClose={this.handleClose}>
+          <div className={classes.header}>
+            <Toolbar disableGutters>
+              <div className={classes.toolbarTitle}>
+                <Typography className={classes.title} color="inherit" variant="title">
+                  <Link route="/" onClick={this.handleClose}>
+                    <ShopLogo shopName={shop && shop.name} />
+                  </Link>
+                </Typography>
+              </div>
+              <IconButton onClick={this.handleClose}>
+                <CloseIcon />
+              </IconButton>
+            </Toolbar>
+            <Divider />
+          </div>
+          <nav className={classes.menu}>
+            <MenuList disablePadding>{navItems.items.map(this.renderNavItem)}</MenuList>
           </nav>
-        </Slide>
-      </Drawer>
-    );
+          <Slide direction="left" in={!!this.state.navItem}>
+            <nav className={classes.subNav}>
+              <NavigationSubMenuMobile
+                navItem={this.state.navItem}
+                onBackButtonClick={this.handleCloseSubMenu}
+              />
+            </nav>
+          </Slide>
+        </Drawer>
+      );
+    }
+
+    // If navItems.items aren't available, skip rendering of navigation
+    return null;
   }
 }
 
