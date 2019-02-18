@@ -38,6 +38,10 @@ const styles = (theme) => ({
       color: theme.palette.primary.dark,
       textDecoration: "underline"
     }
+  },
+  contactColumn: {
+    textAlign: "right",
+    marginRight: "2rem"
   }
 });
 
@@ -84,15 +88,14 @@ const Footer = ({ ...props }) => (
     </div>
     <div className={classNames([props.classes.row, props.classes.contactColumn])}>
       <Typography variant="body1" style={{ marginBottom: ".5rem" }}>
-        You can reach our support at <a className={props.classes.link} href="tel:+11234567890">(123) 456-7890</a>,
-          Monday to Saturday, 8AM EST to 9PM EST.
+        Support: <a className={props.classes.link} href="tel:+11234567890">+1 (123) 456-7890</a>
       </Typography>
       <Typography variant="body1" style={{ marginBottom: ".5rem" }}>
-        Send any question or suggestion to <a className={props.classes.link}
+        Questions or suggestions: <a className={props.classes.link}
           href="mailto:contact@thebackpackshop.com">contact@thebackpackshop.com</a>.
       </Typography>
       <Typography variant="body1">
-        We are based out of 123 Park Avenue, New York City, NY.
+        123 Park Avenue, New York City, NY.
       </Typography>
     </div>
   </footer>
