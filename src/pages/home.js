@@ -12,7 +12,7 @@ const styles = (theme) => ({
     display: "flex",
     height: "26rem",
     justifyContent: "flex-end",
-    minWidth: "100vw",
+    width: "100%",
     paddingRight: "10rem",
     position: "absolute",
     top: "4rem",
