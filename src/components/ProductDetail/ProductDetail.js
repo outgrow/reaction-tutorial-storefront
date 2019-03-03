@@ -222,6 +222,19 @@ class ProductDetail extends Component {
     return productPrice;
   }
 
+  renderMarkers(selectedOption) {
+    if (selectedOption !== undefined &&
+      Array.isArray(selectedOption.retailers) &&
+      selectedOption.retailers.length > 0) {
+
+      return selectedOption.retailers.map((retailer) => (
+        <Marker key={retailer.name} position={{ lat: retailer.latitude, lng: retailer.longitude}} />
+      ));
+    }
+
+    return null;
+  }
+
   render() {
     const {
       classes,
@@ -261,7 +274,14 @@ class ProductDetail extends Component {
     const productPrice = this.determineProductPrice();
     const compareAtDisplayPrice = (productPrice.compareAtPrice && productPrice.compareAtPrice.displayAmount) || null;
 
-    const selectedOption = product.variants.find((variant) => variant._id === pdpSelectedOptionId);
+    let selectedOption;
+
+    if (selectedVariant !== undefined &&
+      Array.isArray(selectedVariant.options) === true &&
+      selectedVariant.options.length > 0) {
+
+      selectedOption = selectedVariant.options.find((variant) => variant._id === pdpSelectedOptionId);
+    }
 
     // Phone size
     if (isWidthDown("sm", width)) {
@@ -345,9 +365,7 @@ class ProductDetail extends Component {
               mapElement={<div style={{ height: `100%` }} />}
               onMapMounted={(ref) => { this.map = ref; }}
             >
-              {selectedOption !== undefined && selectedOption[0].retailers.map((retailer) => (
-                <Marker position={{ lat: retailer.latitude, lng: retailer.longitude}} />
-              ))}
+              {this.renderMarkers(selectedOption)}
             </Map>
             <ProductDetailAddToCart
               onClick={this.handleAddToCartClick}
