@@ -4,6 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import withWidth, { isWidthUp, isWidthDown } from "@material-ui/core/withWidth";
 import { inject, observer } from "mobx-react";
+import { Marker } from "react-google-maps";
 import track from "lib/tracking/track";
 import Breadcrumbs from "components/Breadcrumbs";
 import ProductDetailAddToCart from "components/ProductDetailAddToCart";
@@ -19,6 +20,7 @@ import variantById from "lib/utils/variantById";
 import trackProduct from "lib/tracking/trackProduct";
 import TRACKING from "lib/tracking/constants";
 import trackCartItems from "lib/tracking/trackCartItems";
+import Map from "../../custom/map/Map";
 
 const { CART_VIEWED, PRODUCT_ADDED, PRODUCT_VIEWED } = TRACKING;
 
@@ -259,6 +261,8 @@ class ProductDetail extends Component {
     const productPrice = this.determineProductPrice();
     const compareAtDisplayPrice = (productPrice.compareAtPrice && productPrice.compareAtPrice.displayAmount) || null;
 
+    const selectedOption = product.variants.find((variant) => variant._id === pdpSelectedOptionId);
+
     // Phone size
     if (isWidthDown("sm", width)) {
       return (
@@ -334,6 +338,17 @@ class ProductDetail extends Component {
               currencyCode={currencyCode}
               variants={product.variants}
             />
+            <Map
+              containerElement={<div style={{ height: `400px` }} />}
+              googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg2JoG5-Nr0RmgdvE6M2u3-w-CbG_pnRw&v=3.exp&libraries=geometry,drawing,places"
+              loadingElement={<span>Loading...</span>}
+              mapElement={<div style={{ height: `100%` }} />}
+              onMapMounted={(ref) => { this.map = ref; }}
+            >
+              {selectedOption !== undefined && selectedOption[0].retailers.map((retailer) => (
+                <Marker position={{ lat: retailer.latitude, lng: retailer.longitude}} />
+              ))}
+            </Map>
             <ProductDetailAddToCart
               onClick={this.handleAddToCartClick}
               selectedOptionId={pdpSelectedOptionId}

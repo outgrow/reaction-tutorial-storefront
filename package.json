@@ -68,6 +68,7 @@
     "react-apollo": "^2.4.1",
     "react-container-query": "^0.11.0",
     "react-dom": "16.7.0",
+    "react-google-maps": "^9.4.5",
     "react-helmet": "^5.2.0",
     "react-jss": "^8.6.1",
     "react-stripe-elements": "^2.0.3",

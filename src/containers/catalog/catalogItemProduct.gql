@@ -144,6 +144,11 @@ query catalogItemProductQuery($slugOrId: String!) {
             productId
             variantId
           }
+          retailers {
+            name
+            latitude
+            longitude
+          }
         }
         media {
           toGrid
