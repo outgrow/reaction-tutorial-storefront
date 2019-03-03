@@ -227,13 +227,34 @@ class ProductDetail extends Component {
       Array.isArray(selectedOption.retailers) &&
       selectedOption.retailers.length > 0) {
 
+      this.fitMarkers(selectedOption);
+
       return selectedOption.retailers.map((retailer) => (
-        <Marker key={retailer.name} position={{ lat: retailer.latitude, lng: retailer.longitude}} />
+        <Marker key={retailer.name} position={{lat: retailer.latitude, lng: retailer.longitude}}/>
       ));
     }
 
     return null;
   }
+
+  fitMarkers = (selectedOption) => {
+    if (window.google !== undefined && this.map) {
+      const retailerPositions = selectedOption.retailers.map(({ latitude, longitude }) => new window.google.maps.LatLng(latitude, longitude));
+      const bounds = new window.google.maps.LatLngBounds();
+
+      for (let retailerPosition of retailerPositions) {
+        bounds.extend(retailerPosition);
+      }
+
+      this.map.fitBounds(bounds);
+    }
+  };
+
+  handleMapMounted = (map, selectedOption) => {
+    this.map = map;
+
+    this.fitMarkers(selectedOption);
+  };
 
   render() {
     const {
@@ -363,7 +384,7 @@ class ProductDetail extends Component {
               googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg2JoG5-Nr0RmgdvE6M2u3-w-CbG_pnRw&v=3.exp&libraries=geometry,drawing,places"
               loadingElement={<span>Loading...</span>}
               mapElement={<div style={{ height: `100%` }} />}
-              onMapMounted={(ref) => { this.map = ref; }}
+              onMapMounted={(ref) => this.handleMapMounted(ref, selectedOption)}
             >
               {this.renderMarkers(selectedOption)}
             </Map>
