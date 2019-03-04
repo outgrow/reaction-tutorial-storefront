@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 
 const styles = (theme) => ({
   hero: {
-    alignItems: "center",
+    alignItems: "flex-start",
     backgroundImage: "url(static/images/home-hero.jpg)",
     backgroundPosition: "center",
     backgroundSize: "cover",
@@ -13,27 +13,35 @@ const styles = (theme) => ({
     height: "26rem",
     justifyContent: "flex-end",
     width: "100%",
-    paddingRight: "10rem",
-    position: "absolute",
-    top: "4rem",
-    left: 0,
-    zIndex: -1
+    paddingTop: "4rem",
+    paddingRight: "10rem"
+  },
+  heroText: {
+    width: "14rem"
   },
   title: {
     color: theme.palette.reaction.white,
-    marginBottom: ".5rem"
+    fontFamily: theme.typography.fontFamily,
+    fontSize: theme.typography.fontSize * 2.625,
+    fontWeight: theme.typography.fontWeightBold,
+    marginBottom: ".5rem",
+    textTransform: "uppercase",
+    textShadow: "rgba(0, 0, 0, .3) 0 0 2rem"
   },
   button: {
     backgroundColor: theme.palette.reaction.white,
     color: theme.palette.reaction.black,
     display: "inline-block",
     padding: ".5rem 1rem",
-    textDecoration: "none"
+    textDecoration: "none",
+    "&:hover": {
+      backgroundColor: theme.palette.reaction.black,
+      color: theme.palette.reaction.white
+    }
   },
   categories: {
     display: "flex",
-    justifyContent: "center",
-    marginTop: "30rem" // Avoid hero and categories overlap due to position: absolute
+    justifyContent: "center"
   },
   categoryRow: {
     display: "flex",
@@ -60,15 +68,9 @@ class Home extends Component {
     return (
       <div>
         <div className={classes.hero}>
-          <div>
-            <Typography className={classes.title} variant="title">Adventure awaits.</Typography>
-            <Typography
-              className={classes.title}
-              variant="subheading"
-            >
-              {"Discover our brand new collection of backpacks."}
-            </Typography>
-            <Typography variant="button"><a className={classes.button} href="#">Shop now</a></Typography>
+          <div className={classes.heroText}>
+            <h2 className={classes.title} variant="title">Adventure awaits.</h2>
+            <Typography variant="button"><a className={classes.button} href="#">Shop travel bags</a></Typography>
           </div>
         </div>
         <div className={classes.categories}>
