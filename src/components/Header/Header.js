@@ -35,7 +35,8 @@ const styles = (theme) => ({
   },
   lowerLevel: {
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
+    height: "2.6rem"
   },
   toolbar: {
     alignItems: "center",

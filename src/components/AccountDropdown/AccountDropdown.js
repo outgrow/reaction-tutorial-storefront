@@ -69,7 +69,12 @@ class AccountDropdown extends Component {
             <ViewerInfo viewer={account} />
           </ButtonBase>
           :
-          <IconButton className={classes.button} color="inherit" onClick={this.toggleOpen}>
+          <IconButton
+            className={classes.button}
+            color="inherit"
+            onClick={this.toggleOpen}
+            disableRipple
+          >
             <span className={classes.buttonLabel}>Sign In</span>
             <AccountIcon />
           </IconButton>

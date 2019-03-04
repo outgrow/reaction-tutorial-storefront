@@ -210,6 +210,7 @@ export default class MiniCart extends Component {
             onMouseEnter={this.handlePopperOpen}
             onMouseLeave={this.handlePopperClose}
             onClick={this.handleOnClick}
+            disableRipple
           >
             <span className={classes.buttonLabel}>Cart</span>
             {(cart && cart.totalItemQuantity > 0)

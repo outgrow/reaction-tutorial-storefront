@@ -38,7 +38,12 @@ const styles = (theme) => ({
     fontSize: "12px"
   },
   primaryNavItem: {
-    textTransform: "capitalize"
+    borderRadius: 0,
+    textTransform: "capitalize",
+    "&:hover": {
+      background: "transparent",
+      borderBottom: `3px solid ${theme.palette.primary.dark}`
+    }
   }
 });
 
@@ -171,7 +176,13 @@ class NavigationItemDesktop extends Component {
 
     return (
       <Fragment>
-        <Button className={classNames(primaryNavItem, navigationItem.data.classNames)} color="inherit" onClick={this.onClick} href={this.linkPath(navItem)}>
+        <Button
+          className={classNames(primaryNavItem, navigationItem.data.classNames)}
+          color="inherit"
+          onClick={this.onClick}
+          href={this.linkPath(navItem)}
+          disableRipple
+        >
           {navigationItem.data.contentForLanguage}
           {this.hasSubNavItems && <Fragment>{this.state.isSubNavOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}</Fragment>}
         </Button>
