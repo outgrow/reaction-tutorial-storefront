@@ -41,7 +41,8 @@ const styles = (theme) => ({
   },
   categories: {
     display: "flex",
-    justifyContent: "center"
+    justifyContent: "center",
+    marginTop: "4rem"
   },
   categoryRow: {
     display: "flex",

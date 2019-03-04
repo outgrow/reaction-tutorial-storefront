@@ -9,14 +9,19 @@ const styles = (theme) => ({
   root: {
     minHeight: "100vh"
   },
-  main: {
+  mainHome: {
     flex: "1 1 auto",
-    maxWidth: theme.layout.mainContentMaxWidth,
     marginLeft: "auto",
     marginRight: "auto"
   },
+  main: {
+    flex: "1 1 auto",
+    marginLeft: "auto",
+    marginRight: "auto",
+    maxWidth: theme.layout.mainContentMaxWidth
+  },
   article: {
-    //padding: theme.spacing.unit * 3
+    padding: theme.spacing.unit * 3
   }
 });
 
@@ -25,6 +30,7 @@ class Layout extends Component {
   static propTypes = {
     children: PropTypes.node,
     classes: PropTypes.object,
+    route: PropTypes.string,
     shop: PropTypes.shape({
       name: PropTypes.string
     }).isRequired,
@@ -36,15 +42,15 @@ class Layout extends Component {
   };
 
   render() {
-    const { classes, children, shop, viewer } = this.props;
+    const { classes, children, route, shop, viewer } = this.props;
 
     return (
       <React.Fragment>
         <div className={classes.root}>
           <Header shop={shop} viewer={viewer} />
           <PromoBanner />
-          <main className={classes.main}>
-            <article className={classes.article}>{children}</article>
+          <main className={route === "/home" ? classes.mainHome : classes.main}>
+            <article className={route === "/home" ? "" : classes.article}>{children}</article>
           </main>
           <Footer />
         </div>

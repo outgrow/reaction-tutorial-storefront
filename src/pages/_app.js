@@ -94,7 +94,7 @@ export default class App extends NextApp {
                       <Component pageContext={this.pageContext} shop={shop} {...rest} {...pageProps} />
                     </StripeProvider>
                   ) : (
-                    <Layout shop={shop} viewer={viewer}>
+                    <Layout shop={shop} viewer={viewer} route={route}>
                       <Component pageContext={this.pageContext} shop={shop} {...rest} {...pageProps} />
                     </Layout>
                   )}
