@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { inject } from "mobx-react";
+import classNames from "classnames";
+import Helmet from "react-helmet";
 import AppBar from "@material-ui/core/AppBar";
 import Hidden from "@material-ui/core/Hidden";
 import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import { NavigationDesktop } from "components/NavigationDesktop";
 import { NavigationMobile, NavigationToggleMobile } from "components/NavigationMobile";
@@ -19,20 +20,32 @@ const styles = (theme) => ({
     borderBottom: `solid 1px ${theme.palette.reaction.black05}`,
     color: theme.palette.reaction.coolGrey500
   },
-  controls: {
-    alignItems: "inherit",
-    display: "inherit",
-    flex: 1
-  },
   title: {
     color: theme.palette.reaction.reactionBlue,
     marginRight: theme.spacing.unit,
     borderBottom: `solid 5px ${theme.palette.reaction.reactionBlue200}`
   },
+  links: {
+    display: "block",
+    width: "100%"
+  },
+  logo: {
+    marginTop: ".8rem",
+    marginRight: ".6rem"
+  },
+  lowerLevel: {
+    display: "flex",
+    alignItems: "center"
+  },
   toolbar: {
     alignItems: "center",
     display: "flex",
     justifyContent: "space-between"
+  },
+  upperLevel: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end"
   }
 });
 
@@ -59,29 +72,37 @@ class Header extends Component {
   };
 
   render() {
-    const { classes: { appBar, controls, toolbar, title }, shop } = this.props;
+    const { classes: { appBar, links, logo, lowerLevel, toolbar, upperLevel }, shop } = this.props;
 
     return (
       <AppBar position="static" elevation={0} className={appBar}>
+        <Helmet>
+          <style>{`.shop-logo img { height: 100px; }`}</style>
+        </Helmet>
         <Toolbar className={toolbar}>
           <Hidden mdUp>
             <NavigationToggleMobile onClick={this.handleNavigationToggleClick} />
           </Hidden>
 
-          <div className={controls}>
-            <Typography className={title} color="inherit" variant="h6">
-              <Link route="/">
-                <ShopLogo shopName={shop.name} />
-              </Link>
-            </Typography>
+          <Link route="/">
+            <ShopLogo
+              className={classNames([logo, "shop-logo"])}
+              shopName={shop.name}
+              shopLogoUrl="/static/images/thebackpackshop.svg"
+            />
+          </Link>
 
-            <Hidden smDown initialWidth={"md"}>
-              <NavigationDesktop />
-            </Hidden>
+          <div className={links}>
+            <div className={upperLevel}>
+              <AccountDropdown />
+              <MiniCart />
+            </div>
+            <div className={lowerLevel}>
+              <Hidden smDown initialWidth={"md"}>
+                <NavigationDesktop />
+              </Hidden>
+            </div>
           </div>
-
-          <AccountDropdown />
-          <MiniCart />
         </Toolbar>
         <NavigationMobile />
       </AppBar>

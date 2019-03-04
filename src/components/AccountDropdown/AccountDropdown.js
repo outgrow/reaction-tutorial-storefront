@@ -14,6 +14,19 @@ const styles = (theme) => ({
     width: 320,
     padding: theme.spacing.unit * 2
   },
+  button: {
+    "&:hover": {
+      background: "none",
+      color: "rgb(162, 0, 4)"
+    }
+  },
+  buttonLabel: {
+    fontSize: theme.typography.fontSize * 0.875,
+    fontWeight: theme.typography.fontWeightRegular,
+    lineHeight: 1.25,
+    letterSpacing: ".02rem",
+    marginRight: ".5rem"
+  },
   marginBottom: {
     marginBottom: theme.spacing.unit * 2
   }
@@ -56,7 +69,8 @@ class AccountDropdown extends Component {
             <ViewerInfo viewer={account} />
           </ButtonBase>
           :
-          <IconButton color="inherit" onClick={this.toggleOpen}>
+          <IconButton className={classes.button} color="inherit" onClick={this.toggleOpen}>
+            <span className={classes.buttonLabel}>Sign In</span>
             <AccountIcon />
           </IconButton>
         }

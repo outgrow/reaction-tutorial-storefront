@@ -11,15 +11,15 @@ const theme = createMuiTheme({
   },
   palette: {
     primary: {
-      light: "#26B0F9",
-      main: "#1999DD",
-      dark: "#172F3C",
+      light: "#E71D36",
+      main: "#A20004",
+      dark: "#730002",
       contrastText: "#FFFFFF"
     },
     secondary: {
-      light: "#5d8ea9",
-      main: "#5E7480",
-      dark: "#1D1D1D",
+      light: "#7EA3CC",
+      main: "#255C99",
+      dark: "#262626",
       contrastText: "#000000"
     },
     background: {
@@ -74,13 +74,13 @@ const theme = createMuiTheme({
       black02: "#fafafa",
       white: "#ffffff",
       // medium colors
-      reactionBlue: "#1999dd",
-      reactionBlue100: "#ecf8fe",
-      reactionBlue200: "#d6e5ed",
-      reactionBlue300: "#26b0f9",
-      reactionBlue400: "#067ebe",
-      reactionBlue500: "#285268",
-      reactionBlue600: "#172f3c",
+      reactionBlue: "#A20004",
+      reactionBlue100: "#F6E7E8",
+      reactionBlue200: "#EED0D1",
+      reactionBlue300: "#B22E31",
+      reactionBlue400: "#AA171A",
+      reactionBlue500: "#760003",
+      reactionBlue600: "#4A0002",
       coolGrey: "#5e7480",
       coolGrey100: "#e3ebf0",
       coolGrey200: "#d5d5d5",
@@ -119,7 +119,7 @@ const theme = createMuiTheme({
       red500: "#5e3033",
       red600: "#3c1f21",
       pageLoading: {
-        innerColor: "#1999dd",
+        innerColor: "#A20004",
         outerColor: "rgba(9.80392156862745%,59.99999999999995%,86.66666666666667%,0.122)"
       },
       teal: "#8ce0c9",

@@ -20,11 +20,24 @@ import TRACKING from "lib/tracking/constants";
 
 const { CART_VIEWED, PRODUCT_REMOVED } = TRACKING;
 
-const styles = ({ palette, zIndex }) => ({
+const styles = ({ palette, typography, zIndex }) => ({
   popper: {
     marginTop: "0.5rem",
     marginRight: "1rem",
     zIndex: zIndex.modal
+  },
+  button: {
+    "&:hover": {
+      background: "none",
+      color: "rgb(162, 0, 4)"
+    }
+  },
+  buttonLabel: {
+    fontSize: typography.fontSize * 0.875,
+    fontWeight: typography.fontWeightRegular,
+    lineHeight: 1.25,
+    letterSpacing: ".02rem",
+    marginRight: ".5rem"
   },
   cart: {
     backgroundColor: palette.common.white
@@ -191,11 +204,14 @@ export default class MiniCart extends Component {
     return (
       <Fragment>
         <div ref={this.setPopoverAnchorEl}>
-          <IconButton color="inherit"
+          <IconButton
+            color="inherit"
+            className={classes.button}
             onMouseEnter={this.handlePopperOpen}
             onMouseLeave={this.handlePopperClose}
             onClick={this.handleOnClick}
           >
+            <span className={classes.buttonLabel}>Cart</span>
             {(cart && cart.totalItemQuantity > 0)
               ? (
                 <Badge
