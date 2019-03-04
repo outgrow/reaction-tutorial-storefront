@@ -42,20 +42,32 @@ const styles = (theme) => ({
   categories: {
     display: "flex",
     justifyContent: "center",
-    marginTop: "4rem"
+    marginTop: ".8rem"
   },
   categoryRow: {
     display: "flex",
     justifyContent: "space-between",
-    width: "70%"
+    width: "100%",
+    padding: "0 1.5rem"
   },
   categoryCard: {
-    textAlign: "center"
+    textAlign: "left",
+    width: "30%"
   },
   categoryCardImage: {
     display: "block",
-    height: "200px",
+    width: "100%",
     margin: "1rem 0"
+  },
+  categoryCardDescription: {
+    margin: ".3rem 0"
+  },
+  categoryCardLink: {
+    color: theme.palette.reaction.black,
+    textDecoration: "none",
+    "&:hover": {
+      color: theme.palette.primary.main
+    }
   }
 });
 
@@ -77,21 +89,36 @@ class Home extends Component {
         <div className={classes.categories}>
           <div className={classes.categoryRow}>
             <div className={classes.categoryCard}>
-              <Typography variant="title">Trekking</Typography>
               <img alt="Trekking Backpacks" className={classes.categoryCardImage} src="/static/images/trekking.jpg" />
-              <Typography variant="button"><a className={classes.button} href="#">Shop now</a></Typography>
+              <Typography variant="title">Trekking</Typography>
+              <Typography className={classes.categoryCardDescription} variant="caption">Whether it's on a weekend trip
+                to Yosemite or on a life-changing expedition to Kilimanjaro, these trekking bags will follow you
+                anywhere.</Typography>
+              <Typography variant="button">
+                <a className={classes.categoryCardLink} href="#">Shop trekking bags</a>
+              </Typography>
             </div>
 
             <div className={classes.categoryCard}>
-              <Typography variant="title">Everyday</Typography>
               <img alt="Everyday Backpacks" className={classes.categoryCardImage} src="/static/images/everyday.jpg" />
-              <Typography variant="button"><a className={classes.button} href="#">Shop now</a></Typography>
+              <Typography variant="title">Everyday</Typography>
+              <Typography className={classes.categoryCardDescription} variant="caption">Rain-resistant? Check.
+                Laptop-friendly? Check. Light and compact? Check. We've got what you need to bring your essentials to
+                the office in style.</Typography>
+              <Typography variant="button">
+                <a className={classes.categoryCardLink} href="#">Shop everyday bags</a>
+              </Typography>
             </div>
 
             <div className={classes.categoryCard}>
-              <Typography variant="title">Travel</Typography>
               <img alt="Travel Backpacks" className={classes.categoryCardImage} src="/static/images/travel.jpg" />
-              <Typography variant="button"><a className={classes.button} href="#">Shop now</a></Typography>
+              <Typography variant="title">Travel</Typography>
+              <Typography className={classes.categoryCardDescription} variant="caption">Every travel story starts with
+                the right bag. Whether you're looking for a compact carry-on or a full-size bag to take you around the
+                world, we've got you covered.</Typography>
+              <Typography variant="button">
+                <a className={classes.categoryCardLink} href="#">Shop travel bags</a>
+              </Typography>
             </div>
           </div>
         </div>
