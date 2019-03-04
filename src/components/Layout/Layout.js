@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Header from "components/Header";
 import Footer from "components/Footer";
+import PromoBanner from "components/PromoBanner";
 
 const styles = (theme) => ({
   root: {
@@ -41,6 +42,7 @@ class Layout extends Component {
       <React.Fragment>
         <div className={classes.root}>
           <Header shop={shop} viewer={viewer} />
+          <PromoBanner />
           <main className={classes.main}>
             <article className={classes.article}>{children}</article>
           </main>

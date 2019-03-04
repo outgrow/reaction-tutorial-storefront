@@ -26,8 +26,10 @@ const styles = (theme) => ({
     borderBottom: `solid 5px ${theme.palette.reaction.reactionBlue200}`
   },
   links: {
-    display: "block",
-    width: "100%"
+    display: "flex",
+    flexDirection: "column",
+    width: "100%",
+    marginLeft: "1rem"
   },
   logo: {
     marginTop: ".8rem",
@@ -39,14 +41,15 @@ const styles = (theme) => ({
     height: "2.6rem"
   },
   toolbar: {
-    alignItems: "center",
+    alignItems: "stretch",
     display: "flex",
     justifyContent: "space-between"
   },
   upperLevel: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
+    flex: "1 0 auto"
   }
 });
 

@@ -39,10 +39,11 @@ const styles = (theme) => ({
   },
   primaryNavItem: {
     borderRadius: 0,
-    textTransform: "capitalize",
+    textTransform: "uppercase",
+    fontSize: theme.typography.fontSize * 1.125,
     "&:hover": {
       background: "transparent",
-      borderBottom: `3px solid ${theme.palette.primary.dark}`
+      color: theme.palette.primary.main
     }
   }
 });
