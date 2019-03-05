@@ -90,9 +90,6 @@ const Footer = ({ ...props }) => (
       <Typography variant="caption" style={{ marginBottom: ".5rem" }}>
         Support: <a className={props.classes.link} href="tel:+11234567890">+1 (123) 456-7890</a>
       </Typography>
-      {/*<Typography variant="caption" style={{ marginBottom: ".5rem" }}>*/}
-        {/*<a className={props.classes.link} href="mailto:contact@thebackpackshop.com">contact@thebackpackshop.com</a>*/}
-      {/*</Typography>*/}
       <Typography variant="caption">
         123 Park Avenue, New York City, NY.
       </Typography>
