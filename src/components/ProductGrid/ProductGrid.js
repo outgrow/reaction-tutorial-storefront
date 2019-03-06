@@ -9,7 +9,54 @@ import PageLoading from "components/PageLoading";
 import PageStepper from "components/PageStepper";
 import PageSizeSelector from "components/PageSizeSelector";
 import SortBySelector from "components/SortBySelector";
+import FilterSelector from "components/FilterSelector";
 import ProductGridEmptyMessage from "./ProductGridEmptyMessage";
+
+const colorFilters = [
+  {
+    label: "Black",
+    value: "black"
+  },
+  {
+    label: "White",
+    value: "white"
+  },
+  {
+    label: "Blue",
+    value: "blue"
+  },
+  {
+    label: "Red",
+    value: "red"
+  },
+  {
+    label: "Green",
+    value: "green"
+  }
+];
+
+const sizeFilters = [
+  {
+    label: "XS",
+    value: "xs"
+  },
+  {
+    label: "S",
+    value: "s"
+  },
+  {
+    label: "M",
+    value: "m"
+  },
+  {
+    label: "L",
+    value: "l"
+  },
+  {
+    label: "XL",
+    value: "xl"
+  }
+]
 
 const styles = (theme) => ({
   filters: {
@@ -24,6 +71,7 @@ export default class ProductGrid extends Component {
   static propTypes = {
     catalogItems: PropTypes.arrayOf(PropTypes.object),
     classes: PropTypes.object,
+    colors: PropTypes.array.isRequired,
     currencyCode: PropTypes.string.isRequired,
     initialSize: PropTypes.object,
     isLoadingCatalogItems: PropTypes.bool,
@@ -36,16 +84,23 @@ export default class ProductGrid extends Component {
       loadPreviousPage: PropTypes.func
     }),
     pageSize: PropTypes.number.isRequired,
+    setColors: PropTypes.func.isRequired,
     setPageSize: PropTypes.func.isRequired,
     setSortBy: PropTypes.func.isRequired,
     sortBy: PropTypes.string.isRequired
   };
 
   renderFilters() {
-    const { classes, pageSize, setPageSize, setSortBy, sortBy } = this.props;
+    const { classes, colors, pageSize, setColors, setPageSize, setSortBy, sortBy } = this.props;
 
     return (
       <Grid container spacing={8} className={classes.filters}>
+        <Grid item>
+          <FilterSelector filter={colors} filters={sizeFilters} name="Sizes" onChange={setColors} />
+        </Grid>
+        <Grid item>
+          <FilterSelector filter={colors} filters={colorFilters} name="Colors" onChange={setColors} />
+        </Grid>
         <Grid item>
           <PageSizeSelector pageSize={pageSize} onChange={setPageSize} />
         </Grid>

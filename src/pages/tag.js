@@ -79,6 +79,11 @@ export default class TagGridPage extends Component {
   @trackProductListViewed()
   trackEvent() {}
 
+  setColors = (colors) => {
+    this.props.routingStore.setSearch({ colors });
+    this.props.uiStore.setColors(colors);
+  }
+
   setPageSize = (pageSize) => {
     this.props.routingStore.setSearch({ limit: pageSize });
     this.props.uiStore.setPageSize(pageSize);
@@ -125,6 +130,7 @@ export default class TagGridPage extends Component {
     } = this.props;
     const pageSize = routingStore.query && routingStore.query.limit ? parseInt(routingStore.query.limit, 10) : uiStore.pageSize;
     const sortBy = routingStore.query && routingStore.query.sortby ? routingStore.query.sortby : uiStore.sortBy;
+    const colors = routingStore.query && routingStore.query.colors ? routingStore.query.colors : uiStore.colors;
 
     if (!tag) {
       return (
@@ -153,11 +159,13 @@ export default class TagGridPage extends Component {
         <ProductGridHero tag={tag} />
         <ProductGrid
           catalogItems={catalogItems}
+          colors={colors}
           currencyCode={shop.currency.code}
           initialSize={initialGridSize}
           isLoadingCatalogItems={isLoadingCatalogItems}
           pageInfo={catalogItemsPageInfo}
           pageSize={pageSize}
+          setColors={this.setColors}
           setPageSize={this.setPageSize}
           setSortBy={this.setSortBy}
           sortBy={sortBy}

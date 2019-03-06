@@ -8,6 +8,14 @@ import { PAGE_SIZES, inPageSizes } from "lib/utils/pageSizes";
 
 class UIStore {
   /**
+   * The color we're currently filtering by
+   *
+   * @type {string}
+   * @default ""
+   */
+  @observable colors = [];
+
+  /**
    * Is the cart drawer open or closed
    *
    * @type Boolean
@@ -146,6 +154,10 @@ class UIStore {
 
   @action toggleMenuDrawerOpen() {
     this.isMenuDrawerOpen = !this.isMenuDrawerOpen;
+  }
+
+  @action setColors = (colors) => {
+    this.colors = colors;
   }
 
   @action setPageSize = (size) => {

@@ -1,23 +1,31 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import Select from "components/Select";
+import Select from "@reactioncommerce/components/Select/v1";
+import { withStyles } from "@material-ui/core/styles";
 import { PAGE_SIZES } from "lib/utils/pageSizes";
 
 const SELECTOR_OPTIONS = [
   {
-    name: "20 Products",
+    label: "Show: 20 Products",
     value: PAGE_SIZES._20
   },
   {
-    name: "60 Products",
+    label: "Show: 60 Products",
     value: PAGE_SIZES._60
   },
   {
-    name: "100 Products",
+    label: "Show: 100 Products",
     value: PAGE_SIZES._100
   }
 ];
 
+const styles = () => ({
+  select: {
+    minWidth: "10rem"
+  }
+});
+
+@withStyles(styles, { name: "SkPageSizeSelector" })
 class PageSizeSelector extends Component {
   static propTypes = {
     onChange: PropTypes.func.isRequired,
@@ -25,14 +33,15 @@ class PageSizeSelector extends Component {
   }
 
   handleChange = (event) => {
-    this.props.onChange(event.target.value);
+    // this.props.onChange(event.target.value);
   }
 
   render() {
-    const { pageSize } = this.props;
+    const { classes, pageSize } = this.props;
 
     return (
       <Select
+        className={classes.select}
         value={pageSize}
         options={SELECTOR_OPTIONS}
         inputProps={{
