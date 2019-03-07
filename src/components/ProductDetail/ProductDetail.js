@@ -238,7 +238,7 @@ class ProductDetail extends Component {
   }
 
   fitMarkers = (selectedOption) => {
-    if (window.google !== undefined && this.map) {
+    if (window.google !== undefined && this.map && selectedOption.retailers) {
       const retailerPositions = selectedOption.retailers.map(({ latitude, longitude }) => new window.google.maps.LatLng(latitude, longitude));
       const bounds = new window.google.maps.LatLngBounds();
 
