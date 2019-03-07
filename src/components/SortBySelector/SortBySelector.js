@@ -31,12 +31,8 @@ class SortBySelector extends Component {
     sortBy: PropTypes.string.isRequired
   }
 
-  handleChange = (event) => {
-    // this.props.onChange(event.target.value);
-  }
-
   render() {
-    const { classes, sortBy } = this.props;
+    const { classes, onChange, sortBy } = this.props;
 
     return (
       <Select
@@ -47,7 +43,7 @@ class SortBySelector extends Component {
           name: "sortBy",
           id: "sort-by"
         }}
-        onChange={this.handleChange}
+        onChange={onChange}
       />
     );
   }

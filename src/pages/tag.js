@@ -84,6 +84,11 @@ export default class TagGridPage extends Component {
     this.props.uiStore.setColors(colors);
   }
 
+  setSizes = (sizes) => {
+    this.props.routingStore.setSearch({ sizes });
+    this.props.uiStore.setSizes(sizes);
+  }
+
   setPageSize = (pageSize) => {
     this.props.routingStore.setSearch({ limit: pageSize });
     this.props.uiStore.setPageSize(pageSize);
@@ -131,6 +136,7 @@ export default class TagGridPage extends Component {
     const pageSize = routingStore.query && routingStore.query.limit ? parseInt(routingStore.query.limit, 10) : uiStore.pageSize;
     const sortBy = routingStore.query && routingStore.query.sortby ? routingStore.query.sortby : uiStore.sortBy;
     const colors = routingStore.query && routingStore.query.colors ? routingStore.query.colors : uiStore.colors;
+    const sizes = routingStore.query && routingStore.query.sizes ? routingStore.query.sizes : uiStore.sizes;
 
     if (!tag) {
       return (
@@ -167,7 +173,9 @@ export default class TagGridPage extends Component {
           pageSize={pageSize}
           setColors={this.setColors}
           setPageSize={this.setPageSize}
+          setSizes={this.setSizes}
           setSortBy={this.setSortBy}
+          sizes={sizes}
           sortBy={sortBy}
         />
       </Fragment>

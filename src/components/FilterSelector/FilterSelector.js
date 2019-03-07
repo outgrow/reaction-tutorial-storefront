@@ -18,12 +18,8 @@ class FilterSelector extends Component {
     name: PropTypes.string.isRequired
   }
 
-  handleChange = (event) => {
-    // this.props.onChange(event.target.value);
-  }
-
   render() {
-    const { classes, filter, filters, name } = this.props;
+    const { classes, filter, filters, name, onChange } = this.props;
 
     return (
       <MultiSelect
@@ -34,7 +30,7 @@ class FilterSelector extends Component {
           name: `filterBy-${name}`,
           id: `filterBy-${name}`
         }}
-        onChange={this.handleChange}
+        onChange={onChange}
         placeholder={name}
       />
     );

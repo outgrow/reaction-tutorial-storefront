@@ -32,12 +32,8 @@ class PageSizeSelector extends Component {
     pageSize: PropTypes.number.isRequired
   }
 
-  handleChange = (event) => {
-    // this.props.onChange(event.target.value);
-  }
-
   render() {
-    const { classes, pageSize } = this.props;
+    const { classes, onChange, pageSize } = this.props;
 
     return (
       <Select
@@ -48,7 +44,7 @@ class PageSizeSelector extends Component {
           name: "pageSize",
           id: "page-size"
         }}
-        onChange={this.handleChange}
+        onChange={onChange}
       />
     );
   }

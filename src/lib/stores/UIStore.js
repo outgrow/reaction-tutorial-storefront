@@ -74,6 +74,13 @@ class UIStore {
   @observable pdpSelectedVariantId = null;
 
   /**
+   * The sizes we're filtering by
+   *
+   * @type {Array}
+   */
+  @observable sizes = [];
+
+  /**
    * The product grid's sorting order
    *
    * @type string
@@ -158,6 +165,10 @@ class UIStore {
 
   @action setColors = (colors) => {
     this.colors = colors;
+  }
+
+  @action setSizes = (sizes) => {
+    this.sizes = sizes;
   }
 
   @action setPageSize = (size) => {

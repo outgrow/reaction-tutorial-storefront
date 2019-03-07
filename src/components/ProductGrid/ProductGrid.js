@@ -86,17 +86,19 @@ export default class ProductGrid extends Component {
     pageSize: PropTypes.number.isRequired,
     setColors: PropTypes.func.isRequired,
     setPageSize: PropTypes.func.isRequired,
+    setSizes: PropTypes.func.isRequired,
     setSortBy: PropTypes.func.isRequired,
+    sizes: PropTypes.array.isRequired,
     sortBy: PropTypes.string.isRequired
   };
 
   renderFilters() {
-    const { classes, colors, pageSize, setColors, setPageSize, setSortBy, sortBy } = this.props;
+    const { classes, colors, pageSize, setColors, setPageSize, setSizes, setSortBy, sizes, sortBy } = this.props;
 
     return (
       <Grid container spacing={8} className={classes.filters}>
         <Grid item>
-          <FilterSelector filter={colors} filters={sizeFilters} name="Sizes" onChange={setColors} />
+          <FilterSelector filter={sizes} filters={sizeFilters} name="Sizes" onChange={setSizes} />
         </Grid>
         <Grid item>
           <FilterSelector filter={colors} filters={colorFilters} name="Colors" onChange={setColors} />
