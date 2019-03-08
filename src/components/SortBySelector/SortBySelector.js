@@ -18,9 +18,10 @@ const SORT_BY = [
   }
 ];
 
-const styles = () => ({
+const styles = ({ zIndex }) => ({
   select: {
-    minWidth: "9rem"
+    minWidth: "9rem",
+    zIndex: zIndex.modal
   }
 });
 

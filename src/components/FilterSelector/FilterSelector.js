@@ -3,9 +3,10 @@ import PropTypes from "prop-types";
 import MultiSelect from "@reactioncommerce/components/MultiSelect/v1";
 import { withStyles } from "@material-ui/core/styles";
 
-const styles = () => ({
+const styles = ({ zIndex }) => ({
   select: {
-    minWidth: "6rem"
+    minWidth: "6rem",
+    zIndex: zIndex.modal
   }
 });
 

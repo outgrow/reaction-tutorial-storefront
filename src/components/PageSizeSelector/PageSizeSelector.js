@@ -19,9 +19,10 @@ const SELECTOR_OPTIONS = [
   }
 ];
 
-const styles = () => ({
+const styles = ({ zIndex }) => ({
   select: {
-    minWidth: "10rem"
+    minWidth: "10rem",
+    zIndex: zIndex.modal
   }
 });
 
