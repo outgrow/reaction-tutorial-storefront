@@ -81,12 +81,12 @@ export default class TagGridPage extends Component {
 
   setColors = (colors) => {
     this.props.routingStore.setSearch({ colors });
-    this.props.uiStore.setColors(colors);
+    this.props.uiStore.setColors(colors.split(","));
   }
 
   setSizes = (sizes) => {
     this.props.routingStore.setSearch({ sizes });
-    this.props.uiStore.setSizes(sizes);
+    this.props.uiStore.setSizes(sizes.split(","));
   }
 
   setPageSize = (pageSize) => {
