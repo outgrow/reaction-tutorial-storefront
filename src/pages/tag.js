@@ -79,15 +79,10 @@ export default class TagGridPage extends Component {
   @trackProductListViewed()
   trackEvent() {}
 
-  setColors = (colors) => {
-    this.props.routingStore.setSearch({ colors });
-    this.props.uiStore.setColors(colors.split(","));
-  }
-
-  setSizes = (sizes) => {
-    this.props.routingStore.setSearch({ sizes });
-    this.props.uiStore.setSizes(sizes.split(","));
-  }
+  setFilterTagIds = (filterTagIds) => {
+    this.props.routingStore.setSearch({ filterTagIds });
+    this.props.uiStore.setFilterTagIds(filterTagIds);
+  };
 
   setPageSize = (pageSize) => {
     this.props.routingStore.setSearch({ limit: pageSize });
@@ -135,8 +130,7 @@ export default class TagGridPage extends Component {
     } = this.props;
     const pageSize = routingStore.query && routingStore.query.limit ? parseInt(routingStore.query.limit, 10) : uiStore.pageSize;
     const sortBy = routingStore.query && routingStore.query.sortby ? routingStore.query.sortby : uiStore.sortBy;
-    const colors = routingStore.query && routingStore.query.colors ? routingStore.query.colors : uiStore.colors;
-    const sizes = routingStore.query && routingStore.query.sizes ? routingStore.query.sizes : uiStore.sizes;
+    const filterTagIds = routingStore.query && routingStore.query.filterTagIds ? routingStore.query.filterTagIds : uiStore.filterTagIds;
 
     if (!tag) {
       return (
@@ -165,17 +159,15 @@ export default class TagGridPage extends Component {
         <ProductGridHero tag={tag} />
         <ProductGrid
           catalogItems={catalogItems}
-          colors={colors}
           currencyCode={shop.currency.code}
+          filterTagIds={filterTagIds}
           initialSize={initialGridSize}
           isLoadingCatalogItems={isLoadingCatalogItems}
           pageInfo={catalogItemsPageInfo}
           pageSize={pageSize}
-          setColors={this.setColors}
+          setFilterTagIds={this.setFilterTagIds}
           setPageSize={this.setPageSize}
-          setSizes={this.setSizes}
           setSortBy={this.setSortBy}
-          sizes={sizes}
           sortBy={sortBy}
         />
       </Fragment>

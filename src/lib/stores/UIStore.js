@@ -8,12 +8,11 @@ import { PAGE_SIZES, inPageSizes } from "lib/utils/pageSizes";
 
 class UIStore {
   /**
-   * The color we're currently filtering by
+   * Tag IDs for the selected filters
    *
-   * @type {string}
-   * @default ""
+   * @type {Array}
    */
-  @observable colors = [];
+  @observable filterTagIds = [];
 
   /**
    * Is the cart drawer open or closed
@@ -72,13 +71,6 @@ class UIStore {
    * @type String
    */
   @observable pdpSelectedVariantId = null;
-
-  /**
-   * The sizes we're filtering by
-   *
-   * @type {Array}
-   */
-  @observable sizes = [];
 
   /**
    * The product grid's sorting order
@@ -163,12 +155,8 @@ class UIStore {
     this.isMenuDrawerOpen = !this.isMenuDrawerOpen;
   }
 
-  @action setColors = (colors) => {
-    this.colors = colors;
-  }
-
-  @action setSizes = (sizes) => {
-    this.sizes = sizes;
+  @action setFilterTagIds = (filterTagIds) => {
+    this.filterTagIds = filterTagIds;
   }
 
   @action setPageSize = (size) => {

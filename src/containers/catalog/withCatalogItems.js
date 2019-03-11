@@ -30,14 +30,11 @@ export default function withCatalogItems(Component) {
     render() {
       const { primaryShopId, routingStore, uiStore, tag } = this.props;
       const [sortBy, sortOrder] = uiStore.sortBy.split("-");
-      const { colors, sizes } = uiStore;
       const tagIds = tag && [tag._id];
       const variables = {
         shopId: primaryShopId,
         ...paginationVariablesFromUrlParams(routingStore.query, { defaultPageLimit: uiStore.pageSize }),
-        colors,
         tagIds,
-        sizes,
         sortBy,
         sortByPriceCurrencyCode: uiStore.sortByCurrencyCode,
         sortOrder
