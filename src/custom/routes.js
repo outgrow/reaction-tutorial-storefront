@@ -15,8 +15,8 @@ function defineRoutes(routes) {
     .add("product", "/product/:slugOrId/:variantId?", "product")
     .add("shop", "/shop/:shopId/:tag", "productGrid")
     .add("tag", "/tag/:slug", "tag")
-    .add("profileAddressBook", "/profile/address", "profile")
-    .add("profileOrders", "/profile/orders", "profile")
+    .add("profileAddressBook", "/profile/address", "profileAddressBook")
+    .add("profileOrders", "/profile/orders", "profileOrders");
     .add("profilePaymentMethods", "/profile/payments", "profile")
     .add("contact", "/contact", "contact");
 }
