@@ -1,0 +1,9 @@
+#import "./tagFragment.gql"
+
+query filterTagsQuery($shopId: ID!) {
+  filterTags(shopId: $shopId) {
+    filterTags {
+      ...TagInfo
+    }
+  }
+}

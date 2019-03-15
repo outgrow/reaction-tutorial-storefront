@@ -10,6 +10,7 @@ import PageStepper from "components/PageStepper";
 import PageSizeSelector from "components/PageSizeSelector";
 import SortBySelector from "components/SortBySelector";
 import FilterSelector from "components/FilterSelector";
+import withFilterTags from "containers/filters/withFilterTags";
 import ProductGridEmptyMessage from "./ProductGridEmptyMessage";
 
 const colorFilters = [
@@ -65,6 +66,7 @@ const styles = (theme) => ({
   }
 });
 
+@withFilterTags
 @withStyles(styles, { name: "SkProductGrid" })
 @track()
 export default class ProductGrid extends Component {
