@@ -1,7 +1,6 @@
 fragment TagInfo on Tag {
   _id
   name
-  slug
   isTopLevel
   subTagIds
 }
