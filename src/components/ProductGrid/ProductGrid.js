@@ -94,16 +94,23 @@ export default class ProductGrid extends Component {
   };
 
   renderFilters() {
-    const { classes, filterTagIds, pageSize, setFilterTagIds, setPageSize, setSortBy, sortBy } = this.props;
+    const { classes, filterTags, filterTagIds, pageSize, setFilterTagIds, setPageSize, setSortBy, sortBy } = this.props;
 
     return (
       <Grid container spacing={8} className={classes.filters}>
-        <Grid item>
-          <FilterSelector filter={filterTagIds} filters={sizeFilters} name="Sizes" onChange={setFilterTagIds} />
-        </Grid>
-        <Grid item>
-          <FilterSelector filter={filterTagIds} filters={colorFilters} name="Colors" onChange={setFilterTagIds} />
-        </Grid>
+        {filterTags.map((filter) => (
+          <Grid item>
+            <FilterSelector
+              filter={filterTagIds}
+              filters={filter.subTags.map((subTag) => ({
+                label: subTag.name,
+                value: subTag._id
+              }))}
+              name={filter.tag.name}
+              onChange={setFilterTagIds}
+            />
+          </Grid>
+        ))}
         <Grid item>
           <PageSizeSelector pageSize={pageSize} onChange={setPageSize} />
         </Grid>
