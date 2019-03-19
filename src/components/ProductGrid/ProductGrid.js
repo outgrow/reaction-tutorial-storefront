@@ -13,52 +13,6 @@ import FilterSelector from "components/FilterSelector";
 import withFilterTags from "containers/filters/withFilterTags";
 import ProductGridEmptyMessage from "./ProductGridEmptyMessage";
 
-const colorFilters = [
-  {
-    label: "Black",
-    value: "black"
-  },
-  {
-    label: "White",
-    value: "white"
-  },
-  {
-    label: "Blue",
-    value: "blue"
-  },
-  {
-    label: "Red",
-    value: "red"
-  },
-  {
-    label: "Green",
-    value: "green"
-  }
-];
-
-const sizeFilters = [
-  {
-    label: "XS",
-    value: "xs"
-  },
-  {
-    label: "S",
-    value: "s"
-  },
-  {
-    label: "M",
-    value: "m"
-  },
-  {
-    label: "L",
-    value: "l"
-  },
-  {
-    label: "XL",
-    value: "xl"
-  }
-]
-
 const styles = (theme) => ({
   filters: {
     justifyContent: "flex-end",
@@ -73,8 +27,8 @@ export default class ProductGrid extends Component {
   static propTypes = {
     catalogItems: PropTypes.arrayOf(PropTypes.object),
     classes: PropTypes.object,
-    colors: PropTypes.array.isRequired,
     currencyCode: PropTypes.string.isRequired,
+    filterTags: PropTypes.array.isRequired,
     initialSize: PropTypes.object,
     isLoadingCatalogItems: PropTypes.bool,
     pageInfo: PropTypes.shape({
@@ -89,7 +43,6 @@ export default class ProductGrid extends Component {
     setFilterTagIds: PropTypes.func.isRequired,
     setPageSize: PropTypes.func.isRequired,
     setSortBy: PropTypes.func.isRequired,
-    sizes: PropTypes.array.isRequired,
     sortBy: PropTypes.string.isRequired
   };
 
@@ -98,7 +51,7 @@ export default class ProductGrid extends Component {
 
     return (
       <Grid container spacing={8} className={classes.filters}>
-        {filterTags.map((filter) => (
+        {filterTags && filterTags.map((filter) => (
           <Grid item>
             <FilterSelector
               filter={filterTagIds}

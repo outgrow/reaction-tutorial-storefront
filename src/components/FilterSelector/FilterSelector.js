@@ -25,12 +25,12 @@ class FilterSelector extends Component {
     return (
       <MultiSelect
         className={classes.select}
-        value={filter}
         options={filters}
         inputProps={{
           name: `filterBy-${name}`,
           id: `filterBy-${name}`
         }}
+        defaultValue={filter || []}
         onChange={onChange}
         placeholder={name}
       />

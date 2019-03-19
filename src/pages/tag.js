@@ -130,7 +130,7 @@ export default class TagGridPage extends Component {
     } = this.props;
     const pageSize = routingStore.query && routingStore.query.limit ? parseInt(routingStore.query.limit, 10) : uiStore.pageSize;
     const sortBy = routingStore.query && routingStore.query.sortby ? routingStore.query.sortby : uiStore.sortBy;
-    const filterTagIds = routingStore.query && routingStore.query.filterTagIds ? routingStore.query.filterTagIds : uiStore.filterTagIds;
+    const filterTagIds = routingStore.query && routingStore.query.filterTagIds ? routingStore.query.filterTagIds.split(",") : uiStore.filterTagIds;
 
     if (!tag) {
       return (
