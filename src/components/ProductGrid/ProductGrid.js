@@ -29,6 +29,7 @@ export default class ProductGrid extends Component {
     classes: PropTypes.object,
     currencyCode: PropTypes.string.isRequired,
     filterTags: PropTypes.array.isRequired,
+    filterTagIds: PropTypes.array.isRequired,
     initialSize: PropTypes.object,
     isLoadingCatalogItems: PropTypes.bool,
     pageInfo: PropTypes.shape({
@@ -46,21 +47,43 @@ export default class ProductGrid extends Component {
     sortBy: PropTypes.string.isRequired
   };
 
+  /**
+   * Remove updated filter's tag IDs from global filterTagIds array, and then add the new IDs
+   * This ensures other filters' IDs stay untouched
+   *
+   * @param updatedFilterTagIds
+   * @param subTags
+   * @returns {*[]}
+   */
+  handleSetFilterTagIds = (updatedFilterTagIds, subTags) => {
+    const { filterTagIds } = this.props;
+    const subTagIds = subTags.map((subTag) => subTag._id);
+
+    const otherFilterTagIds = filterTagIds.filter((tagId) => !subTagIds.includes(tagId));
+
+    if (updatedFilterTagIds) {
+      this.props.setFilterTagIds([
+        ...otherFilterTagIds,
+        updatedFilterTagIds
+      ]);
+    }
+  };
+
   renderFilters() {
-    const { classes, filterTags, filterTagIds, pageSize, setFilterTagIds, setPageSize, setSortBy, sortBy } = this.props;
+    const { classes, filterTags, filterTagIds, pageSize, setPageSize, setSortBy, sortBy } = this.props;
 
     return (
       <Grid container spacing={8} className={classes.filters}>
         {filterTags && filterTags.map((filter) => (
           <Grid key={filter.tag._id} item>
             <FilterSelector
-              filter={filterTagIds || []}
+              filter={filterTagIds}
               filters={filter.subTags.map((subTag) => ({
                 label: subTag.name,
                 value: subTag._id
               }))}
               name={filter.tag.name}
-              onChange={setFilterTagIds}
+              onChange={(updatedFilterTagIds) => this.handleSetFilterTagIds(updatedFilterTagIds, filter.subTags)}
             />
           </Grid>
         ))}
