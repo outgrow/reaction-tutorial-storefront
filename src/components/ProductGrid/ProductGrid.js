@@ -52,9 +52,9 @@ export default class ProductGrid extends Component {
     return (
       <Grid container spacing={8} className={classes.filters}>
         {filterTags && filterTags.map((filter) => (
-          <Grid item>
+          <Grid key={filter.tag._id} item>
             <FilterSelector
-              filter={filterTagIds}
+              filter={filterTagIds || []}
               filters={filter.subTags.map((subTag) => ({
                 label: subTag.name,
                 value: subTag._id

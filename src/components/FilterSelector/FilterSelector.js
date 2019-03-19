@@ -14,13 +14,23 @@ const styles = ({ zIndex }) => ({
 class FilterSelector extends Component {
   static propTypes = {
     onChange: PropTypes.func.isRequired,
-    filter: PropTypes.string.isRequired,
+    filter: PropTypes.array.isRequired,
     filters: PropTypes.array.isRequired,
     name: PropTypes.string.isRequired
   }
 
   render() {
     const { classes, filter, filters, name, onChange } = this.props;
+
+    let defaultValue = [];
+
+    if (filter.length > 0) {
+      defaultValue = filters.find((thisFilter) => filter.includes(thisFilter.value));
+
+      if (!Array.isArray(defaultValue)) {
+        defaultValue = [defaultValue];
+      }
+    }
 
     return (
       <MultiSelect
@@ -30,7 +40,7 @@ class FilterSelector extends Component {
           name: `filterBy-${name}`,
           id: `filterBy-${name}`
         }}
-        defaultValue={filter || []}
+        defaultValue={defaultValue}
         onChange={onChange}
         placeholder={name}
       />
