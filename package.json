@@ -1,7 +1,7 @@
 {
   "name": "reaction-next-starterkit",
   "version": "2.0.0-rc.9",
-  "description": "",
+  "description": " ",
   "main": "index.js",
   "keywords": [],
   "author": {
@@ -130,6 +130,9 @@
       "!**/vendor/**"
     ],
     "coverageDirectory": "reports/coverage",
+    "prettier": {
+      "arrowParens": "always"
+    },
     "reporters": [
       "default",
       "jest-junit"
