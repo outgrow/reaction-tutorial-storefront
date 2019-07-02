@@ -82,7 +82,7 @@ class Home extends Component {
       <div>
         <div className={classes.hero}>
           <div className={classes.heroText}>
-            <h2 className={classes.title} variant="title">Adventure awaits.</h2>
+            <h2 className={classes.title}>Adventure awaits.</h2>
             <Typography variant="button"><a className={classes.button} href="#">Shop travel bags</a></Typography>
           </div>
         </div>
